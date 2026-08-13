@@ -41,6 +41,7 @@ parameters:
       - implementation_specific: true
       - discoverable_by_software: true
       - power_of_two_or_napot_range: true
+      - naturally_aligned: true
       - uniform_throughout_system_when_initial_cmo_extensions_are_implemented: true
       - positive: true
     source:

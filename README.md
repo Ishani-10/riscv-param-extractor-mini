@@ -2,7 +2,7 @@
 
 Independent prototype for extracting architectural parameters from short RISC-V specification excerpts into structured YAML.
 
-> Note: This was built as an independent coding-challenge prototype inspired by an LFX mentorship application. It should **not** be represented as an accepted Linux Foundation mentorship project.
+> Note: This is an independent prototype built from a public-style RISC-V parameter extraction coding challenge. It focuses on structured LLM output, evidence tracking, and validation.
 
 ## Problem
 
@@ -25,7 +25,7 @@ The extraction workflow uses an LLM prompt with strict rules:
 - `riscv_challenge_results.yaml` — extracted YAML results.
 - `validate_results.py` — lightweight validator for schema/evidence checks.
 
-## Extracted parameters
+## Extracted Parameters
 
 The prototype extracts six parameters:
 
@@ -44,36 +44,3 @@ Install dependency:
 
 ```bash
 python3 -m pip install pyyaml
-```
-
-Run:
-
-```bash
-python3 validate_results.py source.txt riscv_challenge_results.yaml
-```
-
-Expected output:
-
-```text
-PASS: validated 6 parameters
-```
-
-The validator checks:
-
-- valid YAML parsing,
-- required fields,
-- unique parameter names,
-- valid confidence values,
-- exact evidence strings present in the source text.
-
-## Limitations
-
-This is a small prototype tested on two RISC-V excerpts. The validator checks structure and evidence presence, but it does not prove semantic correctness. A stronger version could use JSON Schema, larger evaluation sets, table ingestion, and human-in-the-loop review.
-
-## Resume-safe description
-
-**AI-Assisted RISC-V Specification Parameter Extractor — Independent Prototype**
-
-- Designed an LLM-assisted workflow to extract architectural parameters from RISC-V specification excerpts into structured YAML outputs.
-- Added evidence-based validation to reduce hallucinated parameters and preserve traceability to the original specification text.
-- Built a lightweight Python validator to check required fields, duplicate names, confidence values, YAML parsing, and exact source-evidence matches.

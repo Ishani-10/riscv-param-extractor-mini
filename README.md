@@ -44,3 +44,28 @@ Install dependency:
 
 ```bash
 python3 -m pip install pyyaml
+```
+
+Run:
+
+```bash
+python3 validate_results.py source.txt riscv_challenge_results.yaml
+```
+
+Expected output:
+
+```text
+PASS: validated 6 parameters
+```
+
+The validator checks:
+
+- valid YAML parsing,
+- required fields,
+- unique parameter names,
+- valid confidence values,
+- exact evidence strings present in the source text.
+
+## Limitations
+
+This is a small prototype tested on two RISC-V excerpts. The validator checks structure and evidence presence, but it does not prove semantic correctness. A stronger version could use JSON Schema, larger evaluation sets, table ingestion, and human-in-the-loop review.

@@ -1,0 +1,106 @@
+schema_version: "1.0"
+source: "RISC-V ISA Manual snippets supplied in the coding challenge"
+parameters:
+  - name: cache_capacity
+    description: >-
+      The total capacity of a cache. The specification states that this value is
+      implementation-specific and therefore may vary between implementations.
+    type: integer
+    unit: bytes
+    constraints:
+      - implementation_specific: true
+      - discoverable_by_software: true
+      - non_negative: true
+    source:
+      section: "Privileged Spec 19.3.1"
+      evidence: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    confidence: high
+
+  - name: cache_organization
+    description: >-
+      The organization of a cache, including its implementation-defined
+      structural arrangement. The supplied text does not specify a concrete
+      representation or numeric bounds.
+    type: implementation_defined_structure
+    constraints:
+      - implementation_specific: true
+      - discoverable_by_software: true
+    source:
+      section: "Privileged Spec 19.3.1"
+      evidence: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    confidence: high
+
+  - name: cache_block_size
+    description: >-
+      The size of one cache block. The size is implementation-specific, while
+      cache blocks represent contiguous, naturally aligned power-of-two (or
+      NAPOT) ranges of memory locations.
+    type: integer
+    unit: bytes
+    constraints:
+      - implementation_specific: true
+      - discoverable_by_software: true
+      - power_of_two_or_napot_range: true
+      - uniform_throughout_system_when_initial_cmo_extensions_are_implemented: true
+      - positive: true
+    source:
+      section: "Privileged Spec 19.3.1"
+      evidence: "The capacity and organization of a cache and the size of a cache block are both implementation-specific"
+    confidence: high
+
+  - name: csr_address_width
+    description: >-
+      Width of the CSR address encoding field, csr[11:0]. This is a fixed ISA
+      encoding property rather than an implementation-defined parameter.
+    type: integer
+    unit: bits
+    value: 12
+    constraints:
+      - fixed_by_standard_isa: true
+      - maximum_number_of_csr_encodings: 4096
+    source:
+      section: "Privileged Spec 2.1"
+      evidence: "The standard RISC-V ISA sets aside a 12-bit encoding space"
+    confidence: high
+
+  - name: csr_read_write_access_encoding
+    description: >-
+      The CSR access-mode encoding in csr[11:10]. Encodings 00, 01, and 10
+      indicate read/write accessibility; encoding 11 indicates read-only.
+    type: enum_encoding
+    width_bits: 2
+    values:
+      "00": read_write
+      "01": read_write
+      "10": read_write
+      "11": read_only
+    constraints:
+      - fixed_by_standard_isa: true
+    source:
+      section: "Privileged Spec 2.1"
+      evidence: "The top two bits (csr[11:10]) indicate whether the register is read/write (00, 01, or 10) or read-only (11)"
+    confidence: high
+
+  - name: csr_lowest_accessible_privilege_encoding
+    description: >-
+      The lowest privilege level permitted to access a CSR, encoded in
+      csr[9:8]. The supplied snippet identifies the field and its purpose but
+      does not include the referenced table mapping bit patterns to privilege
+      levels.
+    type: enum_encoding
+    width_bits: 2
+    values: unknown_from_supplied_snippet
+    constraints:
+      - fixed_by_standard_isa: true
+      - mapping_requires_table_1: true
+    source:
+      section: "Privileged Spec 2.1"
+      evidence: "The next two bits (csr[9:8]) encode the lowest privilege level"
+    confidence: high
+    limitations:
+      - "Do not invent privilege-level names or bit-pattern mappings without Table 1."
+
+extraction_notes:
+  - "A parameter is included when the text explicitly states a configurable property, fixed encoding field, or discoverable architectural value."
+  - "Normative words such as shall, may, optional, implementation-specific, and implementation-defined are retained as constraints or evidence, not treated as sufficient by themselves to invent a parameter."
+  - "The CSR privilege mapping is intentionally incomplete because the supplied snippet refers to a table that was not included."
